@@ -66,7 +66,7 @@ Joystick_t joystick_data;
 // Configure PWM to use TIM4 Channel 1 (current hardware setup)
 PWM_cfg_t pwm_cfg = {
     .htim = &htim4,
-    .channel = TIM_CHANNEL_1,
+    .channel = TIM_CHANNEL_1, // PA9 on Nucleo board, currently used for LED control in this demo
     .tick_freq_hz = 1000000,  // 1MHz timer clock (prescaler = 79 with 80MHz input)
     .min_freq_hz = 10,
     .max_freq_hz = 50000,

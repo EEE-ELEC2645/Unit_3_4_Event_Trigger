@@ -109,7 +109,7 @@ The `DEBOUNCE_DELAY` macro controls how aggressive the debouncing is:
 - **100 ms** - Balanced approach, works for most buttons
 - **200 ms** - Conservative, tolerates noisy buttons
 
-Different buttons may need different values!
+These values are just guides - different buttons may need different values! The blue button B1 on the Nucleo board has a debouncing circuit which means we can do not even need a debounce delay, but you can experiment with it to see the effect.
 
 ## The Current Code
 
@@ -182,13 +182,10 @@ The current code alternates the LED between:
 - **100% brightness** (full on)
 - **50% brightness** (dimmed)
 
-This demonstrates that PWM gives you **fine-grained control** over LED intensity, not just binary on/off.
-
 ### Part 3: Optional Challenges
 
 - **Cycle through multiple brightness levels** - Instead of toggling between 2 levels, cycle through 4-5 levels (0%, 25%, 50%, 75%, 100%)
 - **Add serial output** - Print to UART when buttons are pressed and the debounce status
-- **Measure actual debounce effectiveness** - Count how many times interrupts would have fired without debouncing
 - **Test both buttons** - See if BTN3 needs a different debounce delay than BTN2
 
 ## Running the Code
@@ -201,71 +198,6 @@ When you run the program:
 4. **Button Presses** - Each button press immediately triggers its interrupt handler
 
 The program is **event-driven**: the main loop doesn't do anything. All the action happens in the `HAL_GPIO_EXTI_Callback()` function when buttons are pressed.
-
-## Setup Instructions
-
-### Prerequisites
-
-1. **Completed previous labs**
-   - Blinky to understand GPIO and basic LED control
-   - PWM lab to understand brightness control
-   - Understanding of timers and PWM signals
-
-2. **Configure the Project**
-   - Open this folder in VS Code
-   - When prompted "*Would you like to configure discovered CMake project as STM32Cube project*", click **Yes**
-   - Allow the STM32 extension to complete initialization
-   - Select **Debug** configuration when prompted
-
-3. **Verify Hardware Connection**
-   - Connect the Nucleo board via USB
-   - Check that the board appears under "STM32CUBE Devices and Boards" in the Run and Debug sidebar
-   - Ensure BTN2 and BTN3 are properly connected
-
-4. **Build and Run**
-   - Click **Build** in the bottom status bar to verify compilation
-   - Open Run and Debug panel (`Ctrl+Shift+D`)
-   - Select **"STM32Cube: STLink GDB Server"** and click Run
-   - Press **F5** or the play button to start debugging
-
-## Key Code Sections
-
-### PWM Configuration
-
-```c
-PWM_cfg_t pwm_cfg = {
-    .htim = &htim4,
-    .channel = TIM_CHANNEL_1,
-    .tick_freq_hz = 1000000,
-    .min_freq_hz = 10,
-    .max_freq_hz = 50000,
-    .setup_done = 0
-};
-```
-
-### Debounce Definition
-
-```c
-#define DEBOUNCE_DELAY 200  // milliseconds - MODIFY THIS FOR YOUR EXPERIMENTS
-```
-
-### PWM Library Functions
-
-```c
-// Initialize PWM with configuration
-PWM_Init(&pwm_cfg);
-
-// Set frequency (in Hz)
-PWM_SetFreq(&pwm_cfg, 1000);
-
-// Set brightness as duty cycle (0-100%)
-PWM_SetDuty(&pwm_cfg, 50);    // 50% brightness
-PWM_SetDuty(&pwm_cfg, 100);   // Full brightness
-PWM_SetDuty(&pwm_cfg, 0);     // Off
-
-// Stop PWM output
-PWM_Off(&pwm_cfg);
-```
 
 ## Troubleshooting
 
