@@ -185,8 +185,8 @@ The current code alternates the LED between:
 ### Part 3: Optional Challenges
 
 - **Cycle through multiple brightness levels** - Instead of toggling between 2 levels, cycle through 4-5 levels (0%, 25%, 50%, 75%, 100%)
-- **Add serial output** - Print to UART when buttons are pressed and the debounce status
 - **Test both buttons** - See if BTN3 needs a different debounce delay than BTN2
+- **Extend with BTN4** - Try adding another push-button and LED circuit and extend the code to handle another interrupt. This would be useful as additional buttons in your games in Unit 4! Another button has been defined as BTN4, connected to PA8. You can extend the callback by looking for `(GPIO_Pin == BTN4_Pin)` in the exact same way as BTN2 and BTN3. Add a static debounce variable for BTN4 and implement an action of your choice (toggle another GPIO, change LCD text, etc.)
 
 ## Running the Code
 
